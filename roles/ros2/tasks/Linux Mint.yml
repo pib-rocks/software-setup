@@ -1,0 +1,43 @@
+- name: 'Get package architecture'
+  shell: dpkg --print-architecture
+  register: pkg_arch
+  changed_when: false
+
+- name: 'Get Ubuntu release'
+  shell: . /etc/os-release && echo $UBUNTU_CODENAME
+  register: ubuntu_release
+  changed_when: false
+
+- name: 'Install required packages'
+  package:
+    name: '{{ packagenames }}'
+    state: present
+
+- name: add apt key for ROS2
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/ros/rosdistro/master/ros.key
+    dest: '{{ ros2_repokey_file }}'
+
+- name: add ROS2 apt repository
+  apt_repository: 
+    repo: 'deb [arch={{ pkg_arch.stdout }} signed-by={{ ros2_repokey_file }}] http://packages.ros.org/ros2/ubuntu {{ ubuntu_release.stdout }} main'
+    state: present 
+    filename: ros2
+    update_cache: yes
+
+- name: apt upgrade
+  apt: 
+    upgrade: 'True'
+    update_cache: yes
+
+- name: install ROS2 distribution {{ ros2_dist }} package {{ ros2_version }}
+  package: 
+    name: '{{ ros2_pkg }}'
+    state: present
+
+- name: add setup script to user .bashrc
+  ansible.builtin.lineinfile:
+    path: '~{{ ros_user }}/.bashrc'
+    line: source /opt/ros/humble/setup.bash
+    create: yes
+  

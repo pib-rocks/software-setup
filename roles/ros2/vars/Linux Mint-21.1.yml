@@ -1,0 +1,9 @@
+ros2_repokey_file: /usr/share/keyrings/ros-archive-keyring.gpg
+packagenames:
+ - 'locales'
+ - 'software-properties-common'
+ - 'curl'
+ - 'gnupg2'
+ - 'lsb-release'
+ros2_dist: humble
+ros2_pkg: ros-{{ros2_dist}}-{{ros2_version}}

@@ -1,0 +1,2 @@
+ros_user: <your_raspberrypi_username>
+ansible_user_first_run: {{ ros_user }}

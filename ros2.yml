@@ -1,0 +1,5 @@
+---
+- name: Install ROS2
+  hosts: ros2_base, ros2_desktop
+  roles:
+    - ros2
