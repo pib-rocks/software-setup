@@ -10,6 +10,8 @@ Prepare and install a Raspberry Pi 4 which is freshly installed with Ubuntu 22.0
 - Edit host_vars/pib/firstrun.yml
   - Replace <your_raspberrypi_username> with the username you use on your raspberry pi (default might be pi)
 
+- Copy your ssh key to templates/ssh.key
+
 ## Prepare the raspberry pi for the ansible setup:
 
 - Run the following command:
