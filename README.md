@@ -6,8 +6,12 @@ Prepare and install a Raspberry Pi 4 which is freshly installed with Ubuntu 22.0
 
 - Edit hosts.ini:
   - Replace <your_raspberrypi_fqdn> with 
-    - the full qualified domain name if your DNS is working
+    - the full qualified domain name if your DNS is working 
+
+  OR
+
     - the IP address
+
   of your freshly installed raspberry pi
 
 - Edit host_vars/pib/firstrun.yml
