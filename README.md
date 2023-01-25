@@ -1,6 +1,8 @@
 # software-setup
 
-Prepare and install a Raspberry Pi 4 which is freshly installed with Ubuntu 22.04 server with ROS2
+Prepare and install a Raspberry Pi 4 which is freshly installed with Ubuntu 22.04 server (64bit) with ROS2
+
+IMPORTANT: Use the 64bit version of Ubuntu 22.04. ROS2 can't be installed on the 32bit version!
 
 ## Setup:
 

@@ -5,7 +5,7 @@
   gather_facts: false
   tasks:
     - name: Check if connection is possible
-      command: ssh  -o PasswordAuthentication=no -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes {{ ansible_user }}@{{ ansible_host }} echo "Worked"
+      command: ssh  -y -o PasswordAuthentication=no -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes {{ ansible_user }}@{{ ansible_host }} echo "Worked"
       delegate_to: 127.0.0.1
       ignore_errors: yes
       become: no
@@ -16,8 +16,22 @@
       set_fact:
         ansible_user: "{{ ansible_user_first_run }}"
       when: result is failed 
+    - name: 'apt update'
+      raw: apt update
+      changed_when: False
+    - name: 'apt upgrade (This might take some time ...)'
+      shell: NEEDRESTART_MODE=a apt dist-upgrade -y -qq
+      changed_when: False
+    - name: 'Check if reboot is required'
+      stat:
+        path: /var/run/reboot-required
+      register: rebootreq
+    - name: Rebooting if needed...
+      reboot: 
+        reboot_timeout: 90
+      when: rebootreq.stat.exists == true
     - name: 'install python'
-      raw: test -e /usr/bin/python || (apt -y update && apt -y upgrade && apt install -y python3-minimal python3-zipstream)
+      raw: test -e /usr/bin/python || (apt install -y python3-minimal python3-zipstream)
       changed_when: False
     - file:
         path: /root/.ssh
