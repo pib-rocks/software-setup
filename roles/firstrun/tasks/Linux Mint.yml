@@ -3,11 +3,6 @@
   register: pkg_arch
   changed_when: false
 
-- name: 'Check architecture'
-  fail:
-    msg: 'Wrong architecture armhf: 32bit!'
-  when:  not (pkg_arch.stdout == 'arm64' or pkg_arch.stdout == 'amd64')
-
 - name: 'Get Ubuntu release'
   shell: . /etc/os-release && echo $UBUNTU_CODENAME
   register: ubuntu_release

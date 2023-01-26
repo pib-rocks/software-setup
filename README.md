@@ -1,68 +1,78 @@
 # software-setup
 
-Prepare and install a Raspberry Pi 4 which is freshly installed with Ubuntu 22.04 server with ROS2
+Prepare and install a Raspberry Pi 4 which is freshly installed with Ubuntu 22.04 server (64bit) with ROS2
+
+IMPORTANT: Use the 64bit version of Ubuntu 22.04. ROS2 can't be installed on the 32bit version!
 
 ## Setup:
 
 - Edit hosts.ini:
-  - Replace <your_raspberrypi_fqdn> with the full qualified domain name of your freshly installed raspberry pi
+  - Replace `<your_raspberrypi_fqdn>` with 
+    - the full qualified domain name if your DNS is working 
 
-- Edit host_vars/pib/firstrun.yml
-  - Replace <your_raspberrypi_username> with the username you use on your raspberry pi (default might be pi)
+    OR
 
-- Copy your ssh key to templates/ssh.key
+    - the IP address
+
+  of your freshly installed raspberry pi
+
+- Edit `host_vars/pib/firstrun.yml`
+  - Replace `<your_raspberrypi_username>` with the username you used for preparing your SD card for the pi with rpi-imager
+
+- Copy your public ssh key to `templates/ssh.key`
 
 ## Prepare the raspberry pi for the ansible setup:
 
 - Run the following command:
   
-  ansible-playbook --inventory-file hosts.ini firstrun.yml -l pib --ask-pass --ask-become-pass
+  `ansible-playbook --inventory-file hosts.ini firstrun.yml -l pib --ask-pass --ask-become-pass`
 
-  and enter the password for your user on the raspberry pi and another enter as the passwords will be the same.
+  and enter the password for your user on the raspberry pi and hit enter again as the passwords will be the same.
 
 ## Install ROS2 to your raspberry pi:
 
 - Run the following command:
-  ansible-playbook --inventory-file hosts.ini ros2.yml -l pib
 
-  This time everything should be automatically.
+  `ansible-playbook --inventory-file hosts.ini ros2.yml -l pib`
+
+  This time everything should be done automatically.
 
 ## Check installation
 
 Afterwards log into your raspberry pi and check with the follwoing commands:
 
-  echo $ROS_DISTRO
-  ros2
+  `echo $ROS_DISTRO`
+
+  `ros2`
 
 ## Additonal 
 
-If you want to install ROS2 to your Linux Mint desktop machine with Version 21.1
+If you want to install ROS2 to your Linux Mint desktop machine with Version 21.1 or Ubuntu 22.04
 
-  - Replace <your_desktop_hostname> with the hostname of your desktop machine
-  - Replace <your_desktop_fqdn> with the full qualified domain name of your desktop machine
-  - Create a directory in host_vars with the hostname of your desktop machine
-  - Copy the file from host_vars/pib to this new directory and adjust their content
-    - Replace <your_raspberrypi_username> with the username you use on your desktop machine
+  - Replace <your_desktop_fqdn> with the full qualified domain name of your desktop machine or IP address in `hosts.ini`
+  - Replace <your_desktop_username> with the username you use on your desktop machine in `host_vars/desktop/firstrun.yml`
 
 ### Prepare desktop machine for the ansible setup (if needed):
 
 - Run the following command:
 
-  ansible-playbook --inventory-file hosts.ini firstrun.yml -l <your_desktop_machine_hostname> --ask-pass --ask-become-pass
+  `ansible-playbook --inventory-file hosts.ini firstrun.yml -l desktop --ask-pass --ask-become-pass`
 
-  and enter the password for your user on your desktop machine and another enter as the passwords will be the same.
+  and enter the password for your user on your desktop machine and hit enter again as the passwords will be the same.
 
 ## Install ROS2 to your raspberry pi:
 
 - Run the following command:
-  ansible-playbook --inventory-file hosts.ini ros2.yml -l <your_desktop_machine_hostname>
 
-  This time everything should be automatically.
+  `ansible-playbook --inventory-file hosts.ini ros2.yml -l desktop`
+
+  This time everything should be done automatically.
 
 ## Check installation
 
 Afterwards check on your desktop machine with the follwoing commands:
 
-  echo $ROS_DISTRO
-  ros2
+  `echo $ROS_DISTRO`
+
+  `ros2`
 
