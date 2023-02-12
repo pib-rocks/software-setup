@@ -3,6 +3,7 @@
   become: yes
   become_user: root
   gather_facts: false
+
   tasks:
     - name: Check if connection is possible
       command: ssh  -y -o PasswordAuthentication=no -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes {{ ansible_user }}@{{ ansible_host }} echo "Worked"
