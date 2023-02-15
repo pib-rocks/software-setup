@@ -1,0 +1,49 @@
+- hosts: config
+  vars_prompt:
+    - name: piusername
+      prompt: What is your user name on your Raspberry Pi? e.g. pib or pi
+      private: false
+    - name: username
+      prompt: What is your user name on your desktop system?
+      private: false
+    - name: piaddress
+      prompt: What is the IP address or FQDN of your Raspberry Pi? e.g. 192.168.1.110 or pi.local
+      private: false
+    - name: desktopaddress
+      prompt: What is the IP address or FQDN of your desktop system? e.g. 127.0.0.1 or localhost
+      private: false
+
+  tasks:
+    - name: Set Pi name
+      connection: local    
+      ansible.builtin.lineinfile:
+        path: '{{ playbook_dir }}/host_vars/pib/first_run.yml'
+        regexp: 'ros_user:'
+        line: 'ros_user: {{ piusername }}'
+    - name: Set Pi address
+      connection: local    
+      ansible.builtin.lineinfile:
+        path: '{{ playbook_dir }}/hosts.ini'
+        regexp: 'pib ansible_host='
+        line: 'pib ansible_host={{ piaddress }}'
+    - name: Set desktop username
+      connection: local    
+      ansible.builtin.lineinfile:
+        path: '{{ playbook_dir }}/host_vars/desktop/first_run.yml'
+        regexp: 'ros_user:'
+        line: 'ros_user: {{ username }}'
+    - name: Set desktop address
+      connection: local    
+      ansible.builtin.lineinfile:
+        path: '{{ playbook_dir }}/hosts.ini'
+        regexp: 'desktop ansible_host='
+        line: 'desktop ansible_host={{ desktopaddress }}'
+    - name: check ssh key
+      stat:
+        path: ~/.ssh/id_rsa.pub
+      register: ssh_key
+    - name: create ssh key
+      raw: ssh-keygen -b 4096
+      when:  not ssh_key.stat.exists 
+    - name: Copy ssh key
+      raw: 'cat ~{{ username }}/.ssh/id_rsa.pub >> {{ playbook_dir }}/templates/ssh.keys'

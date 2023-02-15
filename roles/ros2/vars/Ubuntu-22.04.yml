@@ -5,5 +5,6 @@ packagenames:
  - 'curl'
  - 'gnupg2'
  - 'lsb-release'
+ - 'python3-colcon-common-extensions'
 ros2_dist: humble
 ros2_pkg: ros-{{ros2_dist}}-{{ros2_version}}
