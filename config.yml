@@ -1,23 +1,23 @@
 - hosts: config
   vars_prompt:
+    - name: piaddress
+      prompt: "What is the IP address or FQDN of your Raspberry Pi?\n e.g. 192.168.1.110 or pi.local\n"
+      private: false
     - name: piusername
       prompt: What is your user name on your Raspberry Pi? e.g. pib or pi
       private: false
-    - name: username
-      prompt: What is your user name on your desktop system?
-      private: false
-    - name: piaddress
-      prompt: What is the IP address or FQDN of your Raspberry Pi? e.g. 192.168.1.110 or pi.local
-      private: false
     - name: desktopaddress
-      prompt: What is the IP address or FQDN of your desktop system? e.g. 127.0.0.1 or localhost
+      prompt: "What is the IP address or FQDN of your desktop system?\n e.g. 127.0.0.1 or localhost\n"
+      private: false
+    - name: username
+      prompt: "What is your user name on your desktop system?\n"
       private: false
 
   tasks:
     - name: Set Pi name
       connection: local    
       ansible.builtin.lineinfile:
-        path: '{{ playbook_dir }}/host_vars/pib/first_run.yml'
+        path: '{{ playbook_dir }}/host_vars/pib/ros2.yml'
         regexp: 'ros_user:'
         line: 'ros_user: {{ piusername }}'
     - name: Set Pi address
@@ -29,7 +29,7 @@
     - name: Set desktop username
       connection: local    
       ansible.builtin.lineinfile:
-        path: '{{ playbook_dir }}/host_vars/desktop/first_run.yml'
+        path: '{{ playbook_dir }}/host_vars/desktop/ros2.yml'
         regexp: 'ros_user:'
         line: 'ros_user: {{ username }}'
     - name: Set desktop address
