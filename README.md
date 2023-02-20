@@ -33,6 +33,7 @@ Prepare and install a Raspberry Pi 4 which is freshly installed with Ubuntu 22.0
 Afterwards log into your raspberry pi and check with the following commands:
 
   ```echo $ROS_DISTRO```
+
   ```ros2```
 
 ## Install ros2 to your desktop system
@@ -60,5 +61,6 @@ If you want to install ROS2 to your desktop machine (actually Ubuntu 22.04 or Li
 Afterwards check on your desktop machine with the follwoing commands:
 
   ```echo $ROS_DISTRO```
+
   ```ros2```
 
