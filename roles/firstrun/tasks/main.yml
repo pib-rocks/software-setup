@@ -10,7 +10,7 @@
     - "{{ ansible_distribution }}-{{ ansible_distribution_version}}.yml"
     - "{{ ansible_distribution }}.yml"
   tags: vars
-- name: 'Install ros2'
+- name: 'Configure system for ansible'
   include: '{{ item }}'
   with_first_found:
     - "{{ ansible_distribution }}.yml"

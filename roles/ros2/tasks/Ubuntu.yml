@@ -1,3 +1,8 @@
+- name: SHow ansible user
+  debug:
+    msg: "ansible_user = {{ ansible_user }}"
+  when: ansible_user is defined
+
 - name: 'Get package architecture'
   shell: dpkg --print-architecture
   register: pkg_arch
@@ -40,14 +45,14 @@
     name: '{{ ros2_pkg }}'
     state: present
 
+- name: 'Install additional packages'
+  package:
+    name: '{{ ros2_additional_packages }}'
+    state: present
+  when: "'desktop' in ros2_version"
 - name: add setup script to user .bashrc
   ansible.builtin.lineinfile:
     path: '~{{ ros_user }}/.bashrc'
     line: source /opt/ros/humble/setup.bash
     create: yes
   
-- name: add colcon autocomplete script to user .bashrc
-  ansible.builtin.lineinfile:
-    path: '~{{ ros_user }}/.bashrc'
-    line: source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
-    create: yes

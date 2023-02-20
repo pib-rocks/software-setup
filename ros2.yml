@@ -1,5 +1,5 @@
 ---
 - name: Install ROS2
-  hosts: ros2_base, ros2_desktop
+  hosts: raspberry, development
   roles:
     - ros2

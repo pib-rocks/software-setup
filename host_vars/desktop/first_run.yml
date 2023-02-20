@@ -1,2 +1,0 @@
-ros_user: <your_desktop_username>
-ansible_user_first_run: {{ ros_user }}
